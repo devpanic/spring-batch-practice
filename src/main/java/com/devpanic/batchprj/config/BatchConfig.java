@@ -26,30 +26,31 @@ public class BatchConfig {
     }
 
     @Bean
-    public Job helloWorldJob(Step helloWorldStep) {
+    public Job helloWorldJob() {
         return new JobBuilder("helloJob", jobRepository)
-                .start(helloWorldStep)
+                .start(helloWorldStep())
+                .validator(new HelloJobParameterValidator())
                 .build();
     }
 
     @Bean
-    public Job goodbyeWorldJob(Step goodbyeWorldStep) {
+    public Job goodbyeWorldJob() {
         return new JobBuilder("goodbyeJob", jobRepository)
-                .start(goodbyeWorldStep)
+                .start(goodbyeWorldStep())
                 .build();
     }
 
     @Bean
-    public Step helloWorldStep(Tasklet helloWorldTasklet) {
+    public Step helloWorldStep() {
         return new StepBuilder("helloStep", jobRepository)
-                .tasklet(helloWorldTasklet, transactionManager)
+                .tasklet(helloWorldTasklet(null), transactionManager)
                 .build();
     }
 
     @Bean
-    public Step goodbyeWorldStep(Tasklet goodbyeWorldTasklet) {
+    public Step goodbyeWorldStep() {
         return new StepBuilder("goodbyeStep", jobRepository)
-                .tasklet(goodbyeWorldTasklet, transactionManager)
+                .tasklet(goodbyeWorldTasklet(null), transactionManager)
                 .build();
     }
 
